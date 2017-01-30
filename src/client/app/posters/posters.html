@@ -1,0 +1,94 @@
+<div class="page-header">
+  <h1>Постеры</h1>
+</div>
+
+
+<div class="container">
+
+
+  <div class="row">
+    <div class="col-md-12">
+
+      <table class="table table-bordered table-hover table-condensed">
+        <tr style="font-weight: bold">
+          <td>#</td>
+          <td>E-mail</td>
+          <td>Имя</td>
+          <td>Рэйт</td>
+          <td>Количество отзывов</td>
+          <td>Активный</td>
+          <td>Дата создания</td>
+          <td>Редактирование</td>
+        </tr>
+        <tr ng-repeat="poster in $ctrl.posters">
+          <td>
+            <span editable-text="poster.number" e-ng-readonly="true" e-name="number" e-form="rowform">
+              {{poster.number}}
+            </span>
+          </td>
+          <td>
+            <span editable-text="poster.email" e-name="email" e-form="rowform"
+                  e-required onbeforesave="$ctrl.validateNotEmpty($data)">
+              {{poster.email}}
+            </span>
+          </td>
+          <td>
+            <span editable-text="poster.name" e-name="name" e-form="rowform"
+                  e-required onbeforesave="$ctrl.validateNotEmpty($data)">
+              {{poster.name}}
+            </span>
+          </td>
+          <td>
+            <span editable-text="poster.rate" e-name="rate" e-form="rowform"
+                  e-required onbeforesave="$ctrl.validateNotEmpty($data)">
+              {{poster.rate}}
+            </span>
+          </td>
+          <td>
+            <span editable-text="poster.velocity" e-name="velocity" e-form="rowform"
+                  e-required onbeforesave="$ctrl.validateNotEmpty($data)">
+              {{poster.velocity}}
+            </span>
+          </td>
+          <td>
+            <span editable-checkbox="poster.active" edit-disabled="false" e-name="active" e-form="rowform">
+              {{poster.active && "Да" || "Нет" }}
+            </span>
+          </td>
+          <td>
+            <span editable-uidate="poster.created" e-ng-readonly="true" e-name="created" e-form="rowform">
+              {{poster.created | date:'yyyy-MM-dd'}}
+        </span>
+          </td>
+          <td style="white-space: nowrap">
+            <!-- form -->
+            <form editable-form name="rowform" onbeforesave="$ctrl.savePoster(poster)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="$ctrl.inserted == poster">
+              <button type="submit" ng-disabled="rowform.$waiting"  class="btn-success">
+                Сохранить
+              </button>
+              <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn-default">
+                Отмена
+              </button>
+            </form>
+            <div class="buttons" ng-show="!rowform.$visible">
+              <button type="button" class="btn-info" ng-click="rowform.$show()">Редактировать</button>
+              <button type="button" class="btn-danger">Удалить</button>
+            </div>
+          </td>
+        </tr>
+      </table>
+
+      <button type="button" class="btn btn-default" ng-click="$ctrl.addPoster()">Добавить Постера</button>
+
+    </div>
+  </div>
+  <div class="row text-center">
+    <div class="col-md-12">
+      <ul uib-pagination items-per-page="20" total-items="vm.totalItems" ng-model="vm.currentPage"
+          ng-change="pageChanged()">
+      </ul>
+    </div>
+  </div>
+</div>
+
+
