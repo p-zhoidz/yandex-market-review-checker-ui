@@ -22,7 +22,7 @@
           },
           templateUrl: 'app/client/client.html',
           controller: 'ClientController',
-          controllerAs: 'vm',
+          controllerAs: '$ctrl',
           title: 'Клиент'
         }
       }

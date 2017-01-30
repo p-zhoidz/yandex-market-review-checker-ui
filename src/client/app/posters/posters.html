@@ -27,23 +27,27 @@
             </span>
           </td>
           <td>
-            <span editable-text="poster.email" e-name="email" e-form="rowform">
+            <span editable-text="poster.email" e-name="email" e-form="rowform"
+                  e-required onbeforesave="$ctrl.validateNotEmpty($data)">
               {{poster.email}}
             </span>
           </td>
           <td>
-            <span editable-text="poster.name" e-name="name" e-form="rowform">
+            <span editable-text="poster.name" e-name="name" e-form="rowform"
+                  e-required onbeforesave="$ctrl.validateNotEmpty($data)">
               {{poster.name}}
             </span>
           </td>
           <td>
-            <span editable-text="poster.rate" e-name="rate" e-form="rowform">
+            <span editable-text="poster.rate" e-name="rate" e-form="rowform"
+                  e-required onbeforesave="$ctrl.validateNotEmpty($data)">
               {{poster.rate}}
             </span>
           </td>
           <td>
-            <span editable-text="poster.capacity" e-name="capacity" e-form="rowform">
-              {{poster.capacity}}
+            <span editable-text="poster.velocity" e-name="velocity" e-form="rowform"
+                  e-required onbeforesave="$ctrl.validateNotEmpty($data)">
+              {{poster.velocity}}
             </span>
           </td>
           <td>
@@ -53,7 +57,7 @@
           </td>
           <td>
             <span editable-uidate="poster.created" e-ng-readonly="true" e-name="created" e-form="rowform">
-              {{poster.created}}
+              {{poster.created | date:'yyyy-MM-dd'}}
         </span>
           </td>
           <td style="white-space: nowrap">

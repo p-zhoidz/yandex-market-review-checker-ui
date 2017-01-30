@@ -10,12 +10,12 @@
   /* @ngInject */
   function ClientController(logger, clientService, $stateParams) {
 
-    var vm = this;
-    vm.title = 'Клиент';
+    var $ctrl = this;
+    $ctrl.title = 'Клиент';
 
-    vm.currentPage = 1;
-    vm.maxSize = 2;
-    vm.edit = false;
+    $ctrl.currentPage = 1;
+    $ctrl.maxSize = 2;
+    $ctrl.edit = false;
 
 
     activate();
@@ -23,73 +23,73 @@
     function activate() {
       if ($stateParams.client) {
         var selected = $stateParams.client;
-        vm.clientUrl = selected._links.self;
-        vm.storeUrl = selected._links.stores;
-        logger.info(vm.clientUrl);
-        vm.copy = angular.copy(selected);
+        $ctrl.clientUrl = selected._links.self;
+        $ctrl.storeUrl = selected._links.stores;
+        logger.info($ctrl.clientUrl);
+        $ctrl.copy = angular.copy(selected);
         getStores(0);
         getClient();
       }
 
     }
 
-    vm.newStore = function addNewStore() {
-      vm.edit = true;
+    $ctrl.newStore = function addNewStore() {
+      $ctrl.edit = true;
     };
 
-    vm.updateClient = function updateClient() {
+    $ctrl.updateClient = function updateClient() {
       logger.info("UPDATING!!!!");
-      var res = clientService.updateClient(vm.clientUrl, vm.copy);
+      var res = clientService.updateClient($ctrl.clientUrl, $ctrl.copy);
       res.then(function (response) {
-        vm.client = response.data
+        $ctrl.client = response.data
       }, function (error) {
         logger.error(error);
       });
-      vm.client = vm.copy;
-      vm.edit = false;
+      $ctrl.client = $ctrl.copy;
+      $ctrl.edit = false;
     };
 
-    vm.cancelEditing = function cancelEditing() {
+    $ctrl.cancelEditing = function cancelEditing() {
       logger.info("CANCELED!!!!");
-      vm.copy = vm.client;
-      vm.edit = false;
+      $ctrl.copy = $ctrl.client;
+      $ctrl.edit = false;
     };
 
     function getStores(page) {
-      var res = clientService.getStores(page, vm.storeUrl);
+      var res = clientService.getStores(page, $ctrl.storeUrl);
       res.then(function (response) {
-        vm.stores = response.data.content;
-        vm.totalItems = response.data.totalElements;
+        $ctrl.stores = response.data.content;
+        $ctrl.totalItems = response.data.totalElements;
       }, function (error) {
         logger.error(error);
       })
     }
 
     function getClient() {
-      var res = clientService.getClient(vm.clientUrl);
+      var res = clientService.getClient($ctrl.clientUrl);
       res.then(function (response) {
-        vm.client = response.data;
+        $ctrl.client = response.data;
       }, function (error) {
         logger.error(error);
       })
     }
 
-    vm.addStore = function addStore() {
+    $ctrl.addStore = function addStore() {
       logger.info("Adding new STORE");
       logger.info(new Date());
-      vm.inserted = {
+      $ctrl.inserted = {
         id: null,
-        url: '',
+        url: null,
         active: true,
         created: new Date(),
         desiredReviewsNumber: 0
       };
-      vm.stores.push(vm.inserted);
+      $ctrl.stores.push($ctrl.inserted);
     };
 
 
-    vm.saveStore = function (store) {
-      vm.selected = store;
+    $ctrl.saveStore = function (store) {
+      $ctrl.selected = store;
       if (store.number) {
         updateStore(store);
       } else {
@@ -97,11 +97,17 @@
       }
     };
 
+    $ctrl.validateNotEmpty = function (data) {
+      if (!data) {
+        return "Поле обязательно для заполнения";
+      }
+    };
+
 
     var createStore = function (store) {
-      var res = clientService.createStore(store, vm.storeUrl);
+      var res = clientService.createStore(store, $ctrl.storeUrl);
       res.then(function (response) {
-        angular.extend(vm.selected, response.data);
+        angular.extend($ctrl.selected, response.data);
       }, function (error) {
         logger.error(error);
       });
@@ -111,7 +117,7 @@
       var res = clientService.updateStore(store);
       res.then(function (response) {
         logger.info("Updated");
-        angular.extend(vm.selected, response.data);
+        angular.extend($ctrl.selected, response.data);
       }, function (error) {
         logger.error(error);
       });

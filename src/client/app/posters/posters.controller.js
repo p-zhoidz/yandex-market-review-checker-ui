@@ -8,7 +8,7 @@
 
   PostersController.$inject = ['logger', 'postersService', '$scope', '$uibModal', '$location', '$state'];
   /* @ngInject */
-  function PostersController(logger, postersService, $state) {
+  function PostersController(logger, postersService) {
     var $ctrl = this;
     $ctrl.title = 'Постеры';
 
@@ -23,7 +23,7 @@
       var res = postersService.getPosters(url, page);
       res.then(function (response) {
         logger.info("Got Posters");
-        $ctrl.posters = response.data._embedded.posterResourceList;
+        $ctrl.posters = response.data._embedded ? response.data._embedded.posterResourceList : [];
       }, function (error) {
         logger.error(error);
       })
@@ -35,7 +35,7 @@
         number: null,
         email: null,
         name: null,
-        capacity: 0,
+        velocity: 0,
         active: true,
         created: new Date
       };
@@ -52,10 +52,15 @@
       }
     };
 
+    $ctrl.validateNotEmpty = function (data) {
+      if (!data) {
+        return "Поле обязательно для заполнения";
+      }
+    };
+
     function updatePoster(poster) {
       var res = postersService.updatePoster(poster);
       res.then(function (response) {
-        //store = response.data;
         angular.extend($ctrl.selected, response.data);
       }, function (error) {
         logger.error(error);

@@ -19,10 +19,10 @@
     }
 
     function getClients(page) {
-      var res = clientsService.getClients(page)
+      var res = clientsService.getClients(page);
       res.then(function (response) {
         vm.baseUrl = response.data._links.self.href;
-        vm.clients = response.data._embedded.clientResourceList;
+        vm.clients = response.data._embedded ?response.data._embedded.clientResourceList : [];
         vm.totalItems = response.data.page.totalElements;
       }, function (error) {
       })

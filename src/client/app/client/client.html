@@ -5,15 +5,15 @@
 
 <div class="container">
 
-  <div class="row" ng-if="!vm.edit">
+  <div class="row" ng-if="!$ctrl.edit">
     <!--  <div class="col-md-1">-->
     <div class="col-md-12">
       <!--  <div class="row">-->
       <!--<div class="col-md-5">-->
-      <p>#: {{vm.client.number}}</p>
-      <p>E-mail: {{vm.client.email}}</p>
-      <p>Активный: {{vm.client.active}}</p>
-      <p>Дата создания: {{vm.client.created}}</p>
+      <p>#: {{$ctrl.client.number}}</p>
+      <p>E-mail: {{$ctrl.client.email}}</p>
+      <p>Активный: {{$ctrl.client.active}}</p>
+      <p>Дата создания: {{$ctrl.client.created | date:'yyyy-MM-dd'}}</p>
       <!--   </div>-->
       <!-- <div class="col-md-5">-->
       <p>Комментарий:</p>
@@ -23,20 +23,20 @@
       </div>-->
 
       <div>
-        <button class="btn-success" ng-click="vm.newStore()">Добавить новый магазин</button>
+        <button class="btn-success" ng-click="$ctrl.newStore()">Добавить новый магазин</button>
       </div>
 
     </div>
     <!--  <div class="col-md-1">-->
   </div>
 
-  <div class="row" ng-if="vm.edit">
+  <div class="row" ng-if="$ctrl.edit">
     <div class="col-md-12">
-      <p>E-mail: </p><input type="text" ng-model="vm.copy.email">
-      <p>Активный: <input type="checkbox" ng-model="vm.copy.active">
+      <p>E-mail: </p><input type="text" ng-model="$ctrl.copy.email">
+      <p>Активный: <input type="checkbox" ng-model="$ctrl.copy.active">
     </div>
-    <button class="btn-success" ng-click="vm.updateClient()">Сохранить</button>
-    <button class="btn-danger" ng-click="vm.cancelEditing()">Отмена</button>
+    <button class="btn-success" ng-click="$ctrl.updateClient()">Сохранить</button>
+    <button class="btn-danger" ng-click="$ctrl.cancelEditing()">Отмена</button>
   </div>
 
   <div class="row">
@@ -51,7 +51,7 @@
           <td>Дата создания</td>
           <td>Редактирование</td>
         </tr>
-        <tr ng-repeat="store in vm.stores">
+        <tr ng-repeat="store in $ctrl.stores">
           <td>
             <!-- editable username (text with validation) -->
             <span editable-text="store.number" e-ng-readonly="true" e-name="number" e-form="rowform">
@@ -60,31 +60,34 @@
           </td>
           <td>
             <!-- editable username (text with validation) -->
-            <span editable-text="store.url" e-name="url" e-form="rowform">
+            <span editable-text="store.url" e-name="url" e-form="rowform"
+                  e-required onbeforesave="$ctrl.validateNotEmpty($data)">
               {{store.url}}
             </span>
           </td>
           <td>
             <!-- editable username (text with validation) -->
-            <span editable-text="store.desiredReviewsNumber" e-name="desiredReviewsNumber" e-form="rowform">
+            <span editable-text="store.desiredReviewsNumber" e-name="desiredReviewsNumber" e-form="rowform"
+                  e-required onbeforesave="$ctrl.validateNotEmpty($data)">
               {{store.desiredReviewsNumber}}
             </span>
           </td>
           <td>
             <!-- editable status (select-local) -->
-            <span editable-checkbox="store.active" edit-disabled="false" e-name="active" e-form="rowform">
+            <span editable-checkbox="store.active" edit-disabled="false" e-name="active" e-form="rowform" >
               {{store.active && "Да" || "Нет" }}
             </span>
           </td>
           <td>
             <!-- editable group (select-remote) -->
             <span editable-uidate="store.created" e-ng-readonly="true" e-name="created" e-form="rowform">
-              {{store.created}}
+              {{store.created  | date:'yyyy-MM-dd'}}
         </span>
           </td>
           <td style="white-space: nowrap">
             <!-- form -->
-            <form editable-form name="rowform" onbeforesave="vm.saveStore(store)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="vm.inserted == store">
+            <form editable-form name="rowform" onbeforesave="$ctrl.saveStore(store)" ng-show="rowform.$visible"
+                  class="form-buttons form-inline" shown="$ctrl.inserted == store">
               <button type="submit" ng-disabled="rowform.$waiting"  class="btn-success">
                 Сохранить
               </button>
@@ -100,13 +103,13 @@
         </tr>
       </table>
 
-      <button type="button" class="btn btn-default" ng-click="vm.addStore()">Добавить Магазин</button>
+      <button type="button" class="btn btn-default" ng-click="$ctrl.addStore()">Добавить Магазин</button>
 
     </div>
   </div>
   <div class="row text-center">
     <div class="col-md-12">
-      <ul uib-pagination items-per-page="20" total-items="vm.totalItems" ng-model="vm.currentPage"
+      <ul uib-pagination items-per-page="20" total-items="$ctrl.totalItems" ng-model="$ctrl.currentPage"
           ng-change="pageChanged()">
       </ul>
     </div>
