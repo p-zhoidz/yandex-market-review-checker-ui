@@ -9,9 +9,9 @@
     .factory('taskService', TaskService);
 
 
-  TaskService.$inject = ['logger', '$http', '$q'];
+  TaskService.$inject = ['logger', '$http', '$q', 'apiUrl'];
   /* @ngInject */
-  function TaskService(logger, $http, $q) {
+  function TaskService(logger, $http, $q, apiUrl) {
     return {
       getTaskEntries: getTaskEntries,
       getTask: getTask,
@@ -20,8 +20,10 @@
     };
 
 
-    function getTaskEntries(url) {
+    function getTaskEntries(taskId) {
+      var url = apiUrl + "/tasks/" + taskId +"/entries";
       var deferred = $q.defer();
+
       $http.get(url).then(
         function (response) {
           deferred.resolve(response);
@@ -33,7 +35,9 @@
       return deferred.promise;
     }
 
-    function getTask(url) {
+    function getTask(taskId) {
+      var url = apiUrl + "/tasks/" + taskId;
+
       var deferred = $q.defer();
       $http.get(url).then(
         function (response) {
@@ -48,9 +52,10 @@
 
 
     function createTaskEntry(taskEntry) {
+      var url = apiUrl + "/task-entries";
       var deferred = $q.defer();
 
-      $http.post("http://127.0.1.1:8080/api/task-entries", taskEntry).then(
+      $http.post(url, taskEntry).then(
         function (response) {
           deferred.resolve(response);
         }).catch(function (error) {
@@ -61,9 +66,10 @@
     }
 
     function updateTaskEntry(taskEntry) {
+      var url = apiUrl + "/task-entries/" + taskEntry.id;
       var deferred = $q.defer();
 
-      $http.put("http://127.0.1.1:8080/api/task-entries", taskEntry).then(
+      $http.put(url, taskEntry).then(
         function (response) {
           deferred.resolve(response);
         }).catch(function (error) {

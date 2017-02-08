@@ -6,9 +6,9 @@
     .factory('clientsService', ClientsService);
 
 
-  ClientsService.$inject = ['logger', '$http', '$q'];
+  ClientsService.$inject = ['logger', '$http', '$q', 'apiUrl'];
   /* @ngInject */
-  function ClientsService(logger, $http, $q) {
+  function ClientsService(logger, $http, $q, apiUrl) {
     return {
       getClients: getClients,
       updateClient: updateClient,
@@ -16,7 +16,8 @@
       saveClient: saveClient
     };
 
-    function getClient(url) {
+    function getClient(clientId) {
+      var url = apiUrl + "/clients/" + clientId;
       var deferred = $q.defer();
 
       $http.get(url).then(
@@ -29,7 +30,8 @@
       return deferred.promise;
     }
 
-    function saveClient(client, url) {
+    function saveClient(client) {
+      var url = apiUrl + "/clients";
       var deferred = $q.defer();
 
       $http.post(url, client).then(
@@ -43,13 +45,14 @@
     }
 
     function getClients(page) {
+      var url = apiUrl + "/clients";
       var deferred = $q.defer();
       var params = {
         page: page,
         size: 20
       };
 
-      $http.get("http://127.0.1.1:8080/api/clients", {params: params}).then(
+      $http.get(url, {params: params}).then(
         function (response) {
           deferred.resolve(response);
         }).catch(function (error) {

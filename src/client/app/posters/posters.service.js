@@ -9,9 +9,9 @@
     .factory('postersService', PostersService);
 
 
-  PostersService.$inject = ['logger', '$http', '$q'];
+  PostersService.$inject = ['logger', '$http', '$q', 'apiUrl'];
   /* @ngInject */
-  function PostersService(logger, $http, $q) {
+  function PostersService(logger, $http, $q, apiUrl) {
     return {
       getPosters: getPosters,
       createPoster: createPoster,
@@ -19,7 +19,8 @@
     };
 
 
-    function getPosters(url, page) {
+    function getPosters(page) {
+      var url = apiUrl  + "/posters";
       var deferred = $q.defer();
       var params = {
         page: page,
@@ -37,7 +38,8 @@
       return deferred.promise;
     }
 
-    function createPoster(url, poster) {
+    function createPoster(poster) {
+      var url = apiUrl + "/posters";
       var deferred = $q.defer();
 
       $http.post(url, poster)
@@ -50,8 +52,8 @@
     }
 
     function updatePoster(poster) {
+      var url = apiUrl + "/posters/" + poster.id;
       var deferred = $q.defer();
-      var url = poster._links.self;
 
       $http.put(url, poster)
         .then(function (response) {
