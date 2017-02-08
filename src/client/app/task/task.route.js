@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('app.posters')
+    .module('app.task')
     .run(appRun);
 
   appRun.$inject = ['routerHelper'];
@@ -14,17 +14,16 @@
   function getStates() {
     return [
       {
-        state: 'posters',
+        state: 'task',
         config: {
-          url: '/posters',
-          templateUrl: 'app/posters/posters.html',
-          controller: 'PostersController',
+          url: '/task',
+          params: {
+            task: null
+          },
+          templateUrl: 'app/task/task.html',
+          controller: 'TaskController',
           controllerAs: '$ctrl',
-          title: 'Постеры',
-          settings: {
-            nav: 2,
-            content: '<i class="fa fa-lock"></i> Постеры'
-          }
+          title: 'Таска'
         }
       }
     ];

@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('app.clients')
+    .module('app.tasks')
     .run(appRun);
 
   appRun.$inject = ['routerHelper'];
@@ -14,16 +14,16 @@
   function getStates() {
     return [
       {
-        state: 'clients',
+        state: 'tasks',
         config: {
-          url: '/',
-          templateUrl: 'app/clients/clients.html',
-          controller: 'ClientsController',
-          controllerAs: 'vm',
-          title: 'Клиенты',
+          url: '/tasks',
+          templateUrl: 'app/tasks/tasks.html',
+          controller: 'TasksController',
+          controllerAs: '$ctrl',
+          title: 'Таски',
           settings: {
-            nav: 1,
-            content: '<i class="fa fa-lock"></i> Клиенты'
+            nav: 3,
+            content: '<i class="fa fa-lock"></i> Таски'
           }
         }
       }

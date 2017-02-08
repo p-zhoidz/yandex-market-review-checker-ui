@@ -6,9 +6,9 @@
     .factory('clientService', ClientService);
 
 
-  ClientService.$inject = ['logger', '$http', '$q'];
+  ClientService.$inject = ['logger', '$http', '$q', 'apiUrl'];
   /* @ngInject */
-  function ClientService(logger, $http, $q) {
+  function ClientService(logger, $http, $q, apiUrl) {
     return {
       getClient: getClient,
       getStores: getStores,
@@ -17,7 +17,9 @@
       updateStore: updateStore
     };
 
-    function getStores(page, url) {
+    function getStores(page, clientId) {
+      var url = apiUrl + "/clients/" + clientId + "/stores";
+
       var deferred = $q.defer();
       var params = {
         page: page,
@@ -27,7 +29,6 @@
       $http.get(url, {params: params}).then(
         function (response) {
           deferred.resolve(response);
-          //  return response.data;
         }).catch(function (error) {
         deferred.reject(error);
       });
@@ -35,20 +36,23 @@
       return deferred.promise;
     }
 
-    function getClient(url) {
+    function getClient(clientId) {
+      var url = apiUrl + "/clients/" + clientId;
+
       var deferred = $q.defer();
 
       $http.get(url).then(
         function (response) {
           deferred.resolve(response);
-          //  return response.data;
         }).catch(function (error) {
         deferred.reject(error);
       });
       return deferred.promise;
     }
 
-    function updateClient(url, client) {
+    function updateClient(client) {
+      var url = apiUrl + "/clients/" + client.id;
+
       var deferred = $q.defer();
 
       $http.put(url, client).then(
@@ -61,7 +65,8 @@
       return deferred.promise;
     }
 
-    function createStore(store, url) {
+    function createStore(store, clientId) {
+      var url = apiUrl + "/clients/" + clientId + "/stores";
       var deferred = $q.defer();
 
       $http.post(url, store).then(
@@ -74,10 +79,10 @@
       return deferred.promise;
     }
 
-    function updateStore(store) {
+    function updateStore(store, clientId) {
       var deferred = $q.defer();
 
-      var url = store._links.self;
+      var url = apiUrl + "/clients/" +clientId + "/stores/" + store.id;
       $http.put(url, store).then(
         function (response) {
           deferred.resolve(response);

@@ -8,6 +8,8 @@
     'app.client',
     'app.layout',
     'app.posters',
+    'app.tasks',
+    'app.task',
     'xeditable'
   ]);
 
