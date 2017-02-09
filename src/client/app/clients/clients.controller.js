@@ -21,7 +21,6 @@
     function getClients(page) {
       var res = clientsService.getClients(page);
       res.then(function (response) {
-        vm.baseUrl = response.data._links.self.href;
         vm.clients = response.data._embedded ?response.data._embedded.clientResourceList : [];
         vm.totalItems = response.data.page.totalElements;
       }, function (error) {
@@ -41,7 +40,7 @@
     };
 
     vm.saveClient = function saveClient() {
-      clientsService.saveClient(vm.newClient, vm.baseUrl).then(function () {
+      clientsService.saveClient(vm.newClient).then(function () {
         vm.newClient = null;
         getClients(vm.currentPage-1);
         logger.info("SAVED");

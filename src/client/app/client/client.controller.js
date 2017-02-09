@@ -23,9 +23,6 @@
     function activate() {
       if ($stateParams.client) {
         var selected = $stateParams.client;
-        $ctrl.clientUrl = selected._links.self;
-        $ctrl.storeUrl = selected._links.stores;
-        logger.info($ctrl.clientUrl);
         $ctrl.copy = angular.copy(selected);
         getStores(0);
         getClient();
@@ -39,7 +36,7 @@
 
     $ctrl.updateClient = function updateClient() {
       logger.info("UPDATING!!!!");
-      var res = clientService.updateClient($ctrl.clientUrl, $ctrl.copy);
+      var res = clientService.updateClient($ctrl.copy);
       res.then(function (response) {
         $ctrl.client = response.data
       }, function (error) {
