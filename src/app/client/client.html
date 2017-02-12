@@ -1,0 +1,119 @@
+<div class="page-header">
+  <h1>Клиент</h1>
+</div>
+
+
+<div class="container">
+
+  <div class="row" ng-if="!$ctrl.edit">
+    <!--  <div class="col-md-1">-->
+    <div class="col-md-12">
+      <!--  <div class="row">-->
+      <!--<div class="col-md-5">-->
+      <p>#: {{$ctrl.client.number}}</p>
+      <p>E-mail: {{$ctrl.client.email}}</p>
+      <p>Активный: {{$ctrl.client.active}}</p>
+      <p>Дата создания: {{$ctrl.client.created | date:'yyyy-MM-dd'}}</p>
+      <!--   </div>-->
+      <!-- <div class="col-md-5">-->
+      <p>Комментарий:</p>
+      <textarea/>
+      <!--  </div>
+
+      </div>-->
+
+      <div>
+        <button class="btn-success" ng-click="$ctrl.newStore()">Добавить новый магазин</button>
+      </div>
+
+    </div>
+    <!--  <div class="col-md-1">-->
+  </div>
+
+  <div class="row" ng-if="$ctrl.edit">
+    <div class="col-md-12">
+      <p>E-mail: </p><input type="text" ng-model="$ctrl.copy.email">
+      <p>Активный: <input type="checkbox" ng-model="$ctrl.copy.active">
+    </div>
+    <button class="btn-success" ng-click="$ctrl.updateClient()">Сохранить</button>
+    <button class="btn-danger" ng-click="$ctrl.cancelEditing()">Отмена</button>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+
+      <table class="table table-bordered table-hover table-condensed">
+        <tr style="font-weight: bold">
+          <td>#</td>
+          <td>URL</td>
+          <td>Число отзывов</td>
+          <td>Активный</td>
+          <td>Дата создания</td>
+          <td>Редактирование</td>
+        </tr>
+        <tr ng-repeat="store in $ctrl.stores">
+          <td>
+            <!-- editable username (text with validation) -->
+            <span editable-text="store.number" e-ng-readonly="true" e-name="number" e-form="rowform">
+              {{store.number}}
+            </span>
+          </td>
+          <td>
+            <!-- editable username (text with validation) -->
+            <span editable-text="store.url" e-name="url" e-form="rowform"
+                  e-required onbeforesave="$ctrl.validateNotEmpty($data)">
+              {{store.url}}
+            </span>
+          </td>
+          <td>
+            <!-- editable username (text with validation) -->
+            <span editable-text="store.desiredReviewsNumber" e-name="desiredReviewsNumber" e-form="rowform"
+                  e-required onbeforesave="$ctrl.validateNotEmpty($data)">
+              {{store.desiredReviewsNumber}}
+            </span>
+          </td>
+          <td>
+            <!-- editable status (select-local) -->
+            <span editable-checkbox="store.active" edit-disabled="false" e-name="active" e-form="rowform" >
+              {{store.active && "Да" || "Нет" }}
+            </span>
+          </td>
+          <td>
+            <!-- editable group (select-remote) -->
+            <span editable-uidate="store.created" e-ng-readonly="true" e-name="created" e-form="rowform">
+              {{store.created  | date:'yyyy-MM-dd'}}
+        </span>
+          </td>
+          <td style="white-space: nowrap">
+            <!-- form -->
+            <form editable-form name="rowform" onbeforesave="$ctrl.saveStore(store)" ng-show="rowform.$visible"
+                  class="form-buttons form-inline" shown="$ctrl.inserted == store">
+              <button type="submit" ng-disabled="rowform.$waiting"  class="btn-success">
+                Сохранить
+              </button>
+              <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn-default">
+                Отмена
+              </button>
+            </form>
+            <div class="buttons" ng-show="!rowform.$visible">
+              <button type="button" class="btn-info" ng-click="rowform.$show()">Редактировать</button>
+              <button type="button" class="btn-danger">Удалить</button>
+            </div>
+          </td>
+        </tr>
+      </table>
+
+      <button type="button" class="btn btn-default" ng-click="$ctrl.addStore()">Добавить Магазин</button>
+
+    </div>
+  </div>
+  <div class="row text-center">
+    <div class="col-md-12">
+      <ul uib-pagination items-per-page="20" total-items="$ctrl.totalItems" ng-model="$ctrl.currentPage"
+          ng-change="pageChanged()">
+      </ul>
+    </div>
+  </div>
+</div>
+
+

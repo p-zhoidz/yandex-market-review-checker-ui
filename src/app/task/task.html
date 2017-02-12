@@ -1,0 +1,128 @@
+<div class="page-header">
+  <h1>Таски</h1>
+</div>
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <button type="button" class="btn btn-success" ng-click="">Создать</button>
+    </div>
+  </div>
+
+  <div class="row" ng-if="!$ctrl.edit">
+    <!--  <div class="col-md-1">-->
+    <div class="col-md-12">
+      <!--  <div class="row">-->
+      <!--<div class="col-md-5">-->
+      <p>
+        <span>
+        #:{{$ctrl.task.number}}
+      </span>
+        <span>
+          {{$ctrl.task.poster.name}},
+        </span>
+        <span>
+          с {{$ctrl.task.startDate}}
+        </span>
+        <span>
+         по {{$ctrl.task.endDate}}
+        </span>
+
+        <span>
+          {{$ctrl.task.status}}
+        </span>
+      </p>
+
+    </div>
+    <!--  <div class="col-md-1">-->
+  </div>
+
+  <div class="row">
+
+  </div>
+
+
+  <div class="row">
+    <div class="col-md-12">
+      <uib-tabset active="active">
+        <uib-tab index="0" heading="Подзадачи" select="$ctrl.loadTaskEntries()">
+
+
+          <div class="container">
+            <!--   <div class="row">
+                 <div class="col-md-12">
+                   <button type="button" class="btn btn-success" ng-click="$ctrl.addTask()">Создать</button>
+                 </div>
+               </div>-->
+          </div>
+
+          <div class="row">
+            <div class="col-md-12">
+
+              <table class="table table-bordered table-hover table-condensed">
+                <tr style="font-weight: bold">
+                  <td>#</td>
+                  <td>Магазин</td>
+                  <td>Статус</td>
+                  <td>Редактирование</td>
+                </tr>
+                <tr ng-repeat="entry in $ctrl.taskEntries">
+                  <td>
+                    <!-- editable username (text with validation) -->
+                    <span editable-text="entry.number" e-ng-readonly="true" e-name="number" e-form="rowform">
+                      {{entry.number}}
+                    </span>
+                  </td>
+                  <td>
+                    <!-- editable username (text with validation) -->
+                    <span editable-select="entry.store.url" e-name="url" e-form="rowform" ng-init="$ctrl.loadStores()"
+                          e-ng-options="store.url as store.url for store in $ctrl.stores">
+                      {{entry.store.url}}
+                    </span>
+                  </td>
+                  <td>
+                    <!-- editable username (text with validation) -->
+                    <span editable-text="entry.status" e-name="status" e-form="rowform"
+                          e-required onbeforesave="$ctrl.validateNotEmpty($data)">
+                     <!-- {{entry.status}}--> status
+                    </span>
+                  </td>
+                  <td style="white-space: nowrap">
+                    <!-- form -->
+                    <form editable-form name="rowform" onbeforesave="$ctrl.saveTaskEntry()" ng-show="rowform.$visible"
+                          class="form-buttons form-inline" shown="false">
+                      <button type="submit" ng-disabled="rowform.$waiting" class="btn-success">
+                        Сохранить
+                      </button>
+                      <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()"
+                              class="btn-default">
+                        Отмена
+                      </button>
+                    </form>
+                    <div class="buttons" ng-show="!rowform.$visible">
+                      <button type="button" class="btn-info" ng-click="rowform.$show()">Редактировать</button>
+                      <button type="button" class="btn-danger">Удалить</button>
+                    </div>
+                  </td>
+                </tr>
+              </table>
+
+              <button type="button" class="btn btn-default" ng-click="$ctrl.addTaskEntry()">Добавить Подзадачу</button>
+
+            </div>
+          </div>
+
+
+        </uib-tab>
+        <uib-tab index="1" heading="Отчеты" select="alertMe()">
+          I've got an HTML heading, and a select callback. Pretty cool!
+        </uib-tab>
+      </uib-tabset>
+
+    </div>
+  </div>
+
+</div>
+
+
