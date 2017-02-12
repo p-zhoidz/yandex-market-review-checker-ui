@@ -2,6 +2,6 @@
   'use strict';
 
   angular
-    .module('yandexMarketReview', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ngMessages', 'ngAria', 'ui.router', 'toastr', 'angular-storage']);
+    .module('yandexMarketReview', ['ui.bootstrap', 'app.layout','ui.router']);
 
 })();
