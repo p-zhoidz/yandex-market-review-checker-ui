@@ -9,9 +9,10 @@
     .factory('taskService', TaskService);
 
 
-  TaskService.$inject = ['logger', '$http', '$q', 'apiUrl'];
+  TaskService.$inject = ['logger', '$http', '$q', 'config'];
   /* @ngInject */
-  function TaskService(logger, $http, $q, apiUrl) {
+  function TaskService(logger, $http, $q, config) {
+    var apiUrl = config.apiUrl;
     return {
       getTaskEntries: getTaskEntries,
       getTask: getTask,

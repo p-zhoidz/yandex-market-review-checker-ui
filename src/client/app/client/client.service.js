@@ -6,9 +6,10 @@
     .factory('clientService', ClientService);
 
 
-  ClientService.$inject = ['logger', '$http', '$q', 'apiUrl'];
+  ClientService.$inject = ['logger', '$http', '$q', 'config'];
   /* @ngInject */
-  function ClientService(logger, $http, $q, apiUrl) {
+  function ClientService(logger, $http, $q, config) {
+    var apiUrl = config.apiUrl;
     return {
       getClient: getClient,
       getStores: getStores,

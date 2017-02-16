@@ -21,8 +21,8 @@
     function getClients(page) {
       var res = clientsService.getClients(page);
       res.then(function (response) {
-        vm.clients = response.data._embedded ?response.data._embedded.clientResourceList : [];
-        vm.totalItems = response.data.page.totalElements;
+        vm.clients = response.data.content ?response.data.content : [];
+        vm.totalItems = response.data.totalElements;
       }, function (error) {
       })
     }

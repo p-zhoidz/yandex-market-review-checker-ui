@@ -14,7 +14,8 @@
 
   var config = {
     appErrorPrefix: '[checkerUi Error] ',
-    appTitle: 'checkerUi'
+    appTitle: 'checkerUi',
+    apiUrl: 'http://127.0.0.1:8080/api'
   };
 
   core.value('config', config);

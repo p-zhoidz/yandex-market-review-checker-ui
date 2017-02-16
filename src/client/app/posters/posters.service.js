@@ -9,9 +9,10 @@
     .factory('postersService', PostersService);
 
 
-  PostersService.$inject = ['logger', '$http', '$q', 'apiUrl'];
+  PostersService.$inject = ['logger', '$http', '$q', 'config'];
   /* @ngInject */
-  function PostersService(logger, $http, $q, apiUrl) {
+  function PostersService(logger, $http, $q, config) {
+    var apiUrl = config.apiUrl;
     return {
       getPosters: getPosters,
       createPoster: createPoster,

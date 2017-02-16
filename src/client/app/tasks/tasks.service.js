@@ -9,9 +9,10 @@
     .factory('tasksService', TasksService);
 
 
-  TasksService.$inject = ['logger', '$http', '$q'];
+  TasksService.$inject = ['logger', '$http', '$q', 'config'];
   /* @ngInject */
-  function TasksService(logger, $http, $q) {
+  function TasksService(logger, $http, $q, config) {
+    var apiUrl = config.apiUrl;
     return {
       getTasks: getTasks,
       getPosters: getPosters,
@@ -38,7 +39,7 @@
 
     function getPosters() {
       var deferred = $q.defer();
-      var url = "http://127.0.1.1:8080/api/posters";
+      var url = apiUrl + "/posters";
 
       var params = {
         page: 0,
@@ -59,7 +60,7 @@
 
     function createTask(task) {
       var deferred = $q.defer();
-      var url = "http://127.0.1.1:8080/api/tasks";
+      var url = apiUrl + "/tasks";
 
       $http.post(url, task).then(
         function (response) {
@@ -74,48 +75,48 @@
     }
 
 
-/*    function getPosters(url, page) {
-      var deferred = $q.defer();
-      var params = {
-        page: page,
-        size: 20
-      };
+    /*    function getPosters(url, page) {
+     var deferred = $q.defer();
+     var params = {
+     page: page,
+     size: 20
+     };
 
-      $http.get(url, {params: params}).then(
-        function (response) {
-          deferred.resolve(response);
-        }).catch(function (error) {
-          deferred.reject(error);
-        }
-      );
+     $http.get(url, {params: params}).then(
+     function (response) {
+     deferred.resolve(response);
+     }).catch(function (error) {
+     deferred.reject(error);
+     }
+     );
 
-      return deferred.promise;
-    }*/
+     return deferred.promise;
+     }*/
 
-/*    function createPoster(url, poster) {
-      var deferred = $q.defer();
+    /*    function createPoster(url, poster) {
+     var deferred = $q.defer();
 
-      $http.post(url, poster)
-        .then(function (response) {
-          deferred.resolve(response);
-        }, function (error) {
-          deferred.reject(error);
-        });
-      return deferred.promise;
-    }*/
+     $http.post(url, poster)
+     .then(function (response) {
+     deferred.resolve(response);
+     }, function (error) {
+     deferred.reject(error);
+     });
+     return deferred.promise;
+     }*/
 
-/*    function updatePoster(poster) {
-      var deferred = $q.defer();
-      var url = poster._links.self;
+    /*    function updatePoster(poster) {
+     var deferred = $q.defer();
+     var url = poster._links.self;
 
-      $http.put(url, poster)
-        .then(function (response) {
-          deferred.resolve(response);
-        }, function (error) {
-          deferred.reject(error);
-        });
-      return deferred.promise;
-    }*/
+     $http.put(url, poster)
+     .then(function (response) {
+     deferred.resolve(response);
+     }, function (error) {
+     deferred.reject(error);
+     });
+     return deferred.promise;
+     }*/
 
   }
 })
