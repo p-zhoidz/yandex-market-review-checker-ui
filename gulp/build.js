@@ -3,6 +3,7 @@
 var path = require('path');
 var gulp = require('gulp');
 var conf = require('./conf');
+var fs = require('fs');
 
 var replace = require('gulp-replace-task');
 var args = require('yargs').argv;
