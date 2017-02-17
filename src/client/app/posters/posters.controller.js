@@ -19,11 +19,11 @@
     }
 
     function getPosters(page) {
-      var url = "http://127.0.1.1:8080/api/posters";
-      var res = postersService.getPosters(url, page);
+      //var url = "http://127.0.1.1:8080/api/posters";
+      var res = postersService.getPosters(page);
       res.then(function (response) {
         logger.info("Got Posters");
-        $ctrl.posters = response.data._embedded ? response.data._embedded.posterResourceList : [];
+        $ctrl.posters = response.data ? response.data : [];
       }, function (error) {
         logger.error(error);
       })
@@ -68,9 +68,7 @@
     }
 
     function createPoster(poster) {
-      var url = "http://127.0.1.1:8080/api/posters";
-
-      var res = postersService.createPoster(url, poster);
+      var res = postersService.createPoster(poster);
       res.then(function (response) {
         angular.extend($ctrl.selected, response.data);
       }, function (error) {

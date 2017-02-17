@@ -23,6 +23,7 @@
     function activate() {
       if ($stateParams.client) {
         var selected = $stateParams.client;
+        $ctrl.clientId = selected.id;
         $ctrl.copy = angular.copy(selected);
         getStores(0);
         getClient();
@@ -53,7 +54,7 @@
     };
 
     function getStores(page) {
-      var res = clientService.getStores(page, $ctrl.storeUrl);
+      var res = clientService.getStores(page, $ctrl.clientId);
       res.then(function (response) {
         $ctrl.stores = response.data.content;
         $ctrl.totalItems = response.data.totalElements;
@@ -63,7 +64,7 @@
     }
 
     function getClient() {
-      var res = clientService.getClient($ctrl.clientUrl);
+      var res = clientService.getClient($ctrl.clientId);
       res.then(function (response) {
         $ctrl.client = response.data;
       }, function (error) {
@@ -102,7 +103,7 @@
 
 
     var createStore = function (store) {
-      var res = clientService.createStore(store, $ctrl.storeUrl);
+      var res = clientService.createStore(store, $ctrl.clientId);
       res.then(function (response) {
         angular.extend($ctrl.selected, response.data);
       }, function (error) {
@@ -111,7 +112,7 @@
     };
 
     var updateStore = function (store) {
-      var res = clientService.updateStore(store);
+      var res = clientService.updateStore(store, $ctrl.clientId);
       res.then(function (response) {
         logger.info("Updated");
         angular.extend($ctrl.selected, response.data);

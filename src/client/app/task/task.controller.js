@@ -18,16 +18,14 @@
 
       if ($stateParams.task) {
         var selected = $stateParams.task;
-        $ctrl.taskUrl = selected._links.self;
-        $ctrl.taskEntriesUrl = selected._links.task_entries;
-        logger.info($ctrl.taskUrl);
+        $ctrl.taskId =  selected.id;
         $ctrl.copy = angular.copy(selected);
         loadTask();
       }
     }
 
     function loadTask() {
-      var res = taskService.getTask($ctrl.taskUrl);
+      var res = taskService.getTask($ctrl.taskId);
 
       res.then(function (response) {
         logger.info("Got Task");
@@ -38,7 +36,7 @@
     }
 
     $ctrl.loadTaskEntries = function() {
-      var res = taskService.getTaskEntries($ctrl.taskEntriesUrl);
+      var res = taskService.getTaskEntries($ctrl.taskId);
       res.then(function (response) {
         logger.info("Got Task");
         $ctrl.taskEntries = response.data;
@@ -53,14 +51,6 @@
       }, {
         url:"sqmpl2"
       }];
-
-      /*var res = taskService.getTaskEntries($ctrl.taskEntriesUrl);
-      res.then(function (response) {
-        logger.info("Got Task");
-        $ctrl.taskEntries = response.data;
-      }, function (error) {
-        logger.error(error);
-      })*/
     };
 
 
