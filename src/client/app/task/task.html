@@ -62,18 +62,11 @@
 
               <table class="table table-bordered table-hover table-condensed">
                 <tr style="font-weight: bold">
-                  <td>#</td>
                   <td>Магазин</td>
                   <td>Статус</td>
                   <td>Редактирование</td>
                 </tr>
                 <tr ng-repeat="entry in $ctrl.taskEntries">
-                  <td>
-                    <!-- editable username (text with validation) -->
-                    <span editable-text="entry.number" e-ng-readonly="true" e-name="number" e-form="rowform">
-                      {{entry.number}}
-                    </span>
-                  </td>
                   <td>
                     <!-- editable username (text with validation) -->
                     <span editable-select="entry.store.url" e-name="url" e-form="rowform" ng-init="$ctrl.loadStores()"
@@ -85,7 +78,7 @@
                     <!-- editable username (text with validation) -->
                     <span editable-text="entry.status" e-name="status" e-form="rowform"
                           e-required onbeforesave="$ctrl.validateNotEmpty($data)">
-                     <!-- {{entry.status}}--> status
+                     {{entry.status}}
                     </span>
                   </td>
                   <td style="white-space: nowrap">
@@ -107,16 +100,17 @@
                   </td>
                 </tr>
               </table>
-
               <button type="button" class="btn btn-default" ng-click="$ctrl.addTaskEntry()">Добавить Подзадачу</button>
-
             </div>
           </div>
-
 
         </uib-tab>
         <uib-tab index="1" heading="Отчеты" select="alertMe()">
           I've got an HTML heading, and a select callback. Pretty cool!
+
+          <input type="file" id="file" name="file" nv-file-select="" uploader="$ctrl.uploader"/>
+          <button ng-click="$ctrl.uploader.uploadAll()">Add</button>
+
         </uib-tab>
       </uib-tabset>
 
@@ -124,5 +118,3 @@
   </div>
 
 </div>
-
-

@@ -6,7 +6,7 @@
 <div class="container">
   <div class="row">
     <div class="col-md-12">
-      <button type="button" class="btn btn-info" ng-click="">Сгененировать</button>
+      <button type="button" class="btn btn-info" ng-click="$ctrl.generate()">Сгененировать</button>
       <button type="button" class="btn btn-success" ng-click="$ctrl.addTask()">Создать</button>
     </div>
   </div>
@@ -15,7 +15,7 @@
       <p>Постер </p>
       <select ng-model="$ctrl.newTask.posterId"
               ng-init="$ctrl.getPosters()"
-              ng-options="poster.number as poster.name for poster in $ctrl.posters">
+              ng-options="poster.id as poster.name for poster in $ctrl.posters">
         <option value="">Постер</option>
       </select>
 
@@ -68,7 +68,6 @@
 
       <table class="table">
         <tr style="font-weight: bold">
-          <td>#</td>
           <td>Постер</td>
           <td>Период</td>
           <td>Комментарий</td>
@@ -76,7 +75,6 @@
           <td>Редактирование</td>
         </tr>
         <tr ng-repeat="task in $ctrl.tasks">
-          <td>{{task.number}}</td>
           <td>{{task.poster.name}}</td>
           <td>{{task.startDate}} - {{task.endDate}}</td>
           <td>{{task.comment}}</td>

@@ -22,17 +22,25 @@
 
 
     function getTasks(page) {
-      var url = "http://127.0.1.1:8080/api/tasks";
-
-
-      var res = tasksService.getTasks(url, page);
+      var res = tasksService.getTasks(page);
       res.then(function (response) {
         logger.info("Got Tasks");
-        $ctrl.tasks = response.data._embedded ? response.data._embedded.taskResourceList : [];
+        $ctrl.tasks = response.data.content ? response.data.content : [];
       }, function (error) {
         logger.error(error);
       })
     }
+
+    $ctrl.generate = function generate() {
+      logger.info("Generating tasks");
+      var res = tasksService.generate();
+      res.then(function (response) {
+        logger.info("Generated tasks");
+        activate();
+      }, function (error) {
+        logger.error(error);
+      });
+    };
 
     $ctrl.addTask = function addTask() {
       logger.info("Adding new task");
@@ -64,7 +72,7 @@
       var res = tasksService.getPosters();
       res.then(function (response) {
         logger.info("Got Posters");
-        $ctrl.posters = response.data._embedded ? response.data._embedded.posterResourceList : [];
+        $ctrl.posters = response.data.content ? response.data.content : [];
       }, function (error) {
         logger.error(error);
       });
@@ -74,11 +82,11 @@
 
     $ctrl.toggleEndDate = function toggleEndDate() {
       $ctrl.endDateOpened = !$ctrl.endDateOpened;
-    }
+    };
 
     $ctrl.toggleStartDate = function toggleStartDate() {
       $ctrl.startDateOpened = !$ctrl.startDateOpened;
-    }
+    };
 
 
   }

@@ -16,10 +16,12 @@
     return {
       getTasks: getTasks,
       getPosters: getPosters,
-      createTask: createTask
+      createTask: createTask,
+      generate: generate
     };
 
-    function getTasks(url, page) {
+    function getTasks(page) {
+      var url = apiUrl + "/tasks";
       var deferred = $q.defer();
       var params = {
         page: page,
@@ -72,6 +74,21 @@
 
       return deferred.promise;
 
+    }
+
+    function generate() {
+      var deferred = $q.defer();
+      var url = apiUrl + "/tasks/distribute";
+
+      $http.post(url).then(
+        function (response) {
+          deferred.resolve(response);
+        }).catch(function (error) {
+          deferred.reject(error);
+        }
+      );
+
+      return deferred.promise;
     }
 
 

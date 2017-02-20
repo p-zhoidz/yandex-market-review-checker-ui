@@ -10,7 +10,8 @@
     'app.posters',
     'app.tasks',
     'app.task',
-    'xeditable'
+    'xeditable',
+    'angularFileUpload'
   ]);
 
 })();

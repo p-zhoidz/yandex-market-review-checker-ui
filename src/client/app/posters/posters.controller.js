@@ -19,11 +19,10 @@
     }
 
     function getPosters(page) {
-      //var url = "http://127.0.1.1:8080/api/posters";
       var res = postersService.getPosters(page);
       res.then(function (response) {
         logger.info("Got Posters");
-        $ctrl.posters = response.data ? response.data : [];
+        $ctrl.posters = response.data.content ? response.data.content : [];
       }, function (error) {
         logger.error(error);
       })

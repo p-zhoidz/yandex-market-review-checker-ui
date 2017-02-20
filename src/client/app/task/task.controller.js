@@ -6,19 +6,24 @@
     .controller('TaskController', TaskController);
 
 
-  TaskController.$inject = ['logger', 'taskService', '$stateParams'];
+  TaskController.$inject = ['logger', 'taskService', '$stateParams', 'FileUploader', 'config'];
   /* @ngInject */
-  function TaskController(logger, taskService, $stateParams) {
+  function TaskController(logger, taskService, $stateParams, FileUploader, config) {
     var $ctrl = this;
     $ctrl.title = 'Таск';
+    var apiUrl = config.apiUrl;
 
     activate();
+
+    $ctrl.uploader = new FileUploader({
+      url: apiUrl + "/tasks/" + $ctrl.taskId + "/upload_report"
+    });
 
     function activate() {
 
       if ($stateParams.task) {
         var selected = $stateParams.task;
-        $ctrl.taskId =  selected.id;
+        $ctrl.taskId = selected.id;
         $ctrl.copy = angular.copy(selected);
         loadTask();
       }
@@ -35,7 +40,7 @@
       })
     }
 
-    $ctrl.loadTaskEntries = function() {
+    $ctrl.loadTaskEntries = function () {
       var res = taskService.getTaskEntries($ctrl.taskId);
       res.then(function (response) {
         logger.info("Got Task");
@@ -45,11 +50,11 @@
       })
     };
 
-    $ctrl.loadStores = function() {
+    $ctrl.loadStores = function () {
       $ctrl.stores = [{
-        url:"sqmpl1"
+        url: "sqmpl1"
       }, {
-        url:"sqmpl2"
+        url: "sqmpl2"
       }];
     };
 
@@ -82,6 +87,10 @@
       }
     };
 
+    $ctrl.uploadReport = function () {
+
+    };
+
 
     var createTaskEntry = function (taskEntry) {
       var res = taskService.createTaskEntry(taskEntry);
@@ -101,6 +110,7 @@
         logger.error(error);
       });
     };
+
 
   }
 })();
