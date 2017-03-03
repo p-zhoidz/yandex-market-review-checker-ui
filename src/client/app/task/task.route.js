@@ -16,10 +16,7 @@
       {
         state: 'task',
         config: {
-          url: '/task',
-          params: {
-            task: null
-          },
+          url: '/task/{taskId}',
           templateUrl: 'app/task/task.html',
           controller: 'TaskController',
           controllerAs: '$ctrl',

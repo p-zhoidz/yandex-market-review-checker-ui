@@ -47,16 +47,24 @@
       var res = tasksService.download(id);
       res.then(function (response) {
         logger.info("Downloading tasks");
-        File.save(response.data, function (content) {
-          var hiddenElement = document.createElement('a');
-
-          hiddenElement.href = 'data:attachment/csv,' + encodeURI(content);
-          hiddenElement.target = '_blank';
-          hiddenElement.download = 'myFile.csv';
-          hiddenElement.click();
-        });
-
-
+        // File.save(response.data, function (content) {
+        //   var hiddenElement = document.createElement('a');
+        //
+        //   hiddenElement.href = 'data:attachment/csv,' + encodeURI(content);
+        //   hiddenElement.target = '_blank';
+        //   hiddenElement.download = 'myFile.csv';
+        //   hiddenElement.click();
+        // });
+        if (data != null && navigator.msSaveBlob)
+          return navigator.msSaveBlob(new Blob([response.data], {type: "data:attachment/text"}), 'myFile.csv');
+        var a = $("<a style='display: none;'/>");
+        var url = window.URL.createObjectURL(new Blob([response.data], {type: "data:attachment/text"}));
+        a.attr("href", url);
+        a.attr("download", 'myFile.csv');
+        $("body").append(a);
+        a[0].click();
+        window.URL.revokeObjectURL(url);
+        a.remove();
       }, function (error) {
         logger.error(error);
       });
@@ -85,7 +93,7 @@
     };
 
     $ctrl.showTask = function showTask(task) {
-      $state.go("task", {task: task});
+      $state.go("task", {taskId: task.id});
     };
 
     $ctrl.getPosters = function getPosters() {
