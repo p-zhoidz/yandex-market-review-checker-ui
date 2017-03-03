@@ -48,15 +48,6 @@
       <uib-tabset active="active">
         <uib-tab index="0" heading="Подзадачи" select="$ctrl.loadTaskEntries()">
 
-
-          <div class="container">
-            <!--   <div class="row">
-                 <div class="col-md-12">
-                   <button type="button" class="btn btn-success" ng-click="$ctrl.addTask()">Создать</button>
-                 </div>
-               </div>-->
-          </div>
-
           <div class="row">
             <div class="col-md-12">
 
@@ -110,6 +101,30 @@
 
           <input type="file" id="file" name="file" nv-file-select="" uploader="$ctrl.uploader"/>
           <button ng-click="$ctrl.uploader.uploadAll()">Add</button>
+
+
+
+
+
+          <div class="row">
+            <div class="col-md-12">
+
+              <table class="table table-bordered table-hover table-condensed">
+                <tr style="font-weight: bold">
+                  <td>Дата</td>
+
+                </tr>
+                <tr ng-repeat="entry in $ctrl.reportEntries">
+                  <td>
+                      {{entry.date}}
+                  </td>
+                </tr>
+              </table>
+            <!--  <button type="button" class="btn btn-default" ng-click="$ctrl.addTaskEntry()">Добавить Подзадачу</button>-->
+            </div>
+          </div>
+
+
 
         </uib-tab>
       </uib-tabset>

@@ -17,11 +17,29 @@
       getTaskEntries: getTaskEntries,
       getTask: getTask,
       createTaskEntry: createTaskEntry,
-      updateTaskEntry: updateTaskEntry
+      updateTaskEntry: updateTaskEntry,
+      getReportEntries: getReportEntries
     };
 
 
     function getTaskEntries(taskId) {
+      var url = apiUrl + "/tasks/" + taskId +"/entries";
+      var deferred = $q.defer();
+
+      $http.get(url).then(
+        function (response) {
+          deferred.resolve(response);
+        }).catch(function (error) {
+          deferred.reject(error);
+        }
+      );
+
+      return deferred.promise;
+    }
+
+    function getReportEntries(taskId) {
+
+      //FIXME
       var url = apiUrl + "/tasks/" + taskId +"/entries";
       var deferred = $q.defer();
 

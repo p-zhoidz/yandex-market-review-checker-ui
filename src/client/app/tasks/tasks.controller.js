@@ -42,6 +42,26 @@
       });
     };
 
+    $ctrl.download = function download(id) {
+      logger.info("Download task");
+      var res = tasksService.download(id);
+      res.then(function (response) {
+        logger.info("Downloading tasks");
+        File.save(response.data, function (content) {
+          var hiddenElement = document.createElement('a');
+
+          hiddenElement.href = 'data:attachment/csv,' + encodeURI(content);
+          hiddenElement.target = '_blank';
+          hiddenElement.download = 'myFile.csv';
+          hiddenElement.click();
+        });
+
+
+      }, function (error) {
+        logger.error(error);
+      });
+    };
+
     $ctrl.addTask = function addTask() {
       logger.info("Adding new task");
       $ctrl.newTask = {};

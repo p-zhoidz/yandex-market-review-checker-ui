@@ -17,7 +17,8 @@
       getTasks: getTasks,
       getPosters: getPosters,
       createTask: createTask,
-      generate: generate
+      generate: generate,
+      download: download
     };
 
     function getTasks(page) {
@@ -81,6 +82,21 @@
       var url = apiUrl + "/tasks/distribute";
 
       $http.post(url).then(
+        function (response) {
+          deferred.resolve(response);
+        }).catch(function (error) {
+          deferred.reject(error);
+        }
+      );
+
+      return deferred.promise;
+    }
+
+    function download(id) {
+      var deferred = $q.defer();
+      var url = apiUrl + "/reports/tasks/" + id +"/task";
+
+      $http.get(url).then(
         function (response) {
           deferred.resolve(response);
         }).catch(function (error) {

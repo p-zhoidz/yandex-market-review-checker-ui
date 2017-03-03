@@ -16,7 +16,7 @@
     activate();
 
     $ctrl.uploader = new FileUploader({
-      url: apiUrl + "/tasks/" + $ctrl.taskId + "/upload_report"
+      url: apiUrl + "/reports/tasks/" + $ctrl.taskId + "/upload_report"
     });
 
     function activate() {
@@ -109,6 +109,16 @@
       }, function (error) {
         logger.error(error);
       });
+    };
+
+    $ctrl.loadReportEntries = function () {
+      var res = taskService.getReportEntries($ctrl.taskId);
+      res.then(function (response) {
+        logger.info("Got Reports");
+        $ctrl.reportEntries = response.data;
+      }, function (error) {
+        logger.error(error);
+      })
     };
 
 
