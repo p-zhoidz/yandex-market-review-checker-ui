@@ -1,23 +1,35 @@
 <div class="page-header">
-  <h1>Клиенты</h1>
+  <div class="container">
+    <h1>Клиенты</h1>
+  </div>
 </div>
 
 
 <div class="container">
 
   <div class="row">
-    <div ng-if="!vm.newClient">
-      <button class="btn-success" ng-click="vm.startNewClient()">Добавить нового клиента</button>
-    </div>
-    <div ng-if="vm.newClient">
-      <p>E-mail: </p> <input type="text" ng-model="vm.newClient.email">
-      <p>Активный: </p> <input type="checkbox" ng-model="vm.newClient.active">
-      <p>Комментарий: </p> <input type="text" ng-model="vm.newClient.comment">
+    <div class="col-md-12">
+      <div ng-if="!vm.newClient">
+        <button class="btn btn-success" ng-click="vm.startNewClient()">Добавить нового клиента</button>
+      </div>
+      <div ng-if="vm.newClient">
+        <div class="form-group">
+          <label for="email">E-mail:</label>
+          <input type="text" class="form-control" id="email" ng-model="vm.newClient.email">
+        </div>
+        <div class="form-group">
+          <label for="active">Активный:</label>
+          <input type="checkbox" id="active" ng-model="vm.newClient.active">
+        </div>
+        <div class="form-group">
+          <label for="comment">Комментарий:</label>
+          <input type="text" class="form-control" id="comment" ng-model="vm.newClient.comment">
+        </div>
 
-      <button class="btn-success" ng-click="vm.saveClient()">Сохранить</button>
-      <button class="btn-danger" ng-click="vm.cancelAddNewClient()">Отмена</button>
+        <button class="btn btn-success" ng-click="vm.saveClient()">Сохранить</button>
+        <button class="btn btn-danger" ng-click="vm.cancelAddNewClient()">Отмена</button>
+      </div>
     </div>
-
   </div>
 
   <div class="row">

@@ -1,5 +1,7 @@
 <div class="page-header">
-  <h1>Таски</h1>
+  <div class="container">
+    <h1>Таски</h1>
+  </div>
 </div>
 
 
@@ -11,61 +13,67 @@
     </div>
   </div>
   <div class="row">
-    <div ng-if="$ctrl.newTask">
-      <p>Постер </p>
-      <select ng-model="$ctrl.newTask.posterId"
-              ng-init="$ctrl.getPosters()"
-              ng-options="poster.id as poster.name for poster in $ctrl.posters">
-        <option value="">Постер</option>
-      </select>
-
-      <div class="row">
-        <div class="col-md-6">
-          <p class="input-group">
-            <input type="text" class="form-control" uib-datepicker-popup ng-model="$ctrl.newTask.startDate"
-                   is-open="$ctrl.startDateOpened"
-                   datepicker-options="dateOptions" ng-required="true"
-                   close-text="Закрыть"
-                   current-text="Сегодня"
-                   clear-text="Очистить"/>
-            <span class="input-group-btn">
-            <button type="button" class="btn btn-default" ng-click="$ctrl.toggleStartDate()">
-              <i class="glyphicon glyphicon-calendar"></i>
-            </button>
-          </span>
-          </p>
+    <div class="col-md-12">
+      <div ng-if="$ctrl.newTask">
+        <div class="row">
+          <div class="col-md-12">
+            <h5>Постер </h5>
+            <select ng-model="$ctrl.newTask.posterId"
+                    ng-init="$ctrl.getPosters()"
+                    ng-options="poster.id as poster.name for poster in $ctrl.posters">
+              <option value="">Постер</option>
+            </select>
+          </div>
         </div>
-
-        <span>по:</span>
-        <div class="col-md-6">
-          <p class="input-group">
-            <input type="text" class="form-control" uib-datepicker-popup ng-model="$ctrl.newTask.endDate"
-                   is-open="$ctrl.endDateOpened"
-                   datepicker-options="dateOptions" ng-required="true"
-                   close-text="Закрыть"
-                   current-text="Сегодня"
-                   clear-text="Очистить"/>
-            <span class="input-group-btn">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="input-group">
+              <input type="text" class="form-control" uib-datepicker-popup ng-model="$ctrl.newTask.startDate"
+                     is-open="$ctrl.startDateOpened"
+                     datepicker-options="dateOptions" ng-required="true"
+                     close-text="Закрыть"
+                     current-text="Сегодня"
+                     clear-text="Очистить"/>
+              <span class="input-group-btn">
+          <button type="button" class="btn btn-default" ng-click="$ctrl.toggleStartDate()">
+          <i class="glyphicon glyphicon-calendar"></i>
+          </button>
+          </span>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <span class="separate-marker">по:</span>
+            <p class="input-group">
+              <input type="text" class="form-control" uib-datepicker-popup ng-model="$ctrl.newTask.endDate"
+                     is-open="$ctrl.endDateOpened"
+                     datepicker-options="dateOptions" ng-required="true"
+                     close-text="Закрыть"
+                     current-text="Сегодня"
+                     clear-text="Очистить"/>
+              <span class="input-group-btn">
             <button type="button" class="btn btn-default" ng-click="$ctrl.toggleEndDate()">
               <i class="glyphicon glyphicon-calendar"></i>
             </button>
           </span>
 
-          </p>
+            </p>
+          </div>
         </div>
+        <!-- <div uib-datepicker ng-model="dt" class="well well-sm" datepicker-options="options"></div>-->
+        <div class="form-group">
+          <label for="comment">Комментарий:</label>
+          <input type="text" class="form-control" id="comment" ng-model="$ctrl.newTask.comment">
+        </div>
+
+
+        <button class="btn btn-success" ng-click="$ctrl.saveTask()">Сохранить</button>
+        <button class="btn btn-danger" ng-click="$ctrl.cancelAddTask()">Отмена</button>
       </div>
-      <!-- <div uib-datepicker ng-model="dt" class="well well-sm" datepicker-options="options"></div>-->
-      <p>Комментарий: </p> <input type="text" ng-model="$ctrl.newTask.comment">
-
-
-      <button class="btn-success" ng-click="$ctrl.saveTask()">Сохранить</button>
-      <button class="btn-danger" ng-click="$ctrl.cancelAddTask()">Отмена</button>
     </div>
   </div>
 
   <div class="row">
     <div class="col-md-12">
-
       <table class="table">
         <tr style="font-weight: bold">
           <td>Постер</td>
@@ -89,8 +97,6 @@
           </td>
         </tr>
       </table>
-
-
     </div>
   </div>
   <div class="row text-center">
