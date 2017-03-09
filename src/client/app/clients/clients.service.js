@@ -14,7 +14,8 @@
       getClients: getClients,
       updateClient: updateClient,
       getClient: getClient,
-      saveClient: saveClient
+      saveClient: saveClient,
+      generateReport: generateReport
     };
 
     function getClient(clientId) {
@@ -62,6 +63,22 @@
       );
 
       return deferred.promise;
+    }
+
+    function generateReport() {
+      var url = apiUrl + "/tasks/1/report";
+      var deferred = $q.defer();
+
+      $http.get(url).then(
+        function (response) {
+          deferred.resolve(response);
+        }).catch(function (error) {
+          deferred.reject(error);
+        }
+      );
+
+      return deferred.promise;
+
     }
 
     function updateClient() {

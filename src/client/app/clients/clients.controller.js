@@ -9,8 +9,8 @@
   ClientsController.$inject = ['logger', 'clientsService', '$scope', '$state'];
   /* @ngInject */
   function ClientsController(logger, clientsService, $scope, $state) {
-    var vm = this;
-    vm.title = 'Клиенты';
+    var $ctrl = this;
+    $ctrl.title = 'Клиенты';
 
     activate();
 
@@ -21,8 +21,8 @@
     function getClients(page) {
       var res = clientsService.getClients(page);
       res.then(function (response) {
-        vm.clients = response.data.content ?response.data.content : [];
-        vm.totalItems = response.data.totalElements;
+        $ctrl.clients = response.data.content ?response.data.content : [];
+        $ctrl.totalItems = response.data.totalElements;
       }, function (error) {
       })
     }
@@ -32,17 +32,17 @@
     };
 
 
-    vm.currentPage = 1;
-    vm.maxSize = 2;
+    $ctrl.currentPage = 1;
+    $ctrl.maxSize = 2;
 
-    vm.startNewClient = function startNewClient() {
-      vm.newClient = {};
+    $ctrl.startNewClient = function startNewClient() {
+      $ctrl.newClient = {};
     };
 
-    vm.saveClient = function saveClient() {
-      clientsService.saveClient(vm.newClient).then(function () {
-        vm.newClient = null;
-        getClients(vm.currentPage-1);
+    $ctrl.saveClient = function saveClient() {
+      clientsService.saveClient($ctrl.newClient).then(function () {
+        $ctrl.newClient = null;
+        getClients($ctrl.currentPage-1);
         logger.info("SAVED");
       }, function (error) {
         logger.error(error)
@@ -51,17 +51,43 @@
     };
 
 
-    vm.cancelAddNewClient = function cancelAddNewClient() {
-      vm.newClient = null;
+    $ctrl.cancelAddNewClient = function cancelAddNewClient() {
+      $ctrl.newClient = null;
+    };
+
+    $ctrl.generateReport = function generateReport() {
+      var res = clientsService.generateReport();
+
+        res.then(function (response) {
+
+
+
+        if (response.data != null && navigator.msSaveBlob)
+          return navigator.msSaveBlob(new Blob([response.data], {type: "application/pdf"}), 'myFile.pdf');
+        var a = $("<a style='display: none;'/>");
+        var url = window.URL.createObjectURL(new Blob([response.data], {type: "application/pdf"}));
+        a.attr("href", url);
+        a.attr("download", 'myFile.pdf');
+        $("body").append(a);
+        a[0].click();
+        window.URL.revokeObjectURL(url);
+        a.remove();
+
+
+
+        logger.info("GENERATED");
+      }, function (error) {
+        logger.error(error)
+      })
     };
 
     $scope.setPage = function (pageNo) {
-      vm.currentPage = pageNo;
+      $ctrl.currentPage = pageNo;
     };
 
     $scope.pageChanged = function () {
-      logger.info('Page changed to: ' + vm.currentPage);
-      getClients(vm.currentPage - 1);
+      logger.info('Page changed to: ' + $ctrl.currentPage);
+      getClients($ctrl.currentPage - 1);
     };
 
   }

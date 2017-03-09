@@ -9,25 +9,25 @@
 
   <div class="row">
     <div class="col-md-12">
-      <div ng-if="!vm.newClient">
-        <button class="btn btn-success" ng-click="vm.startNewClient()">Добавить нового клиента</button>
+      <div ng-if="!$ctrl.newClient">
+        <button class="btn btn-success" ng-click="$ctrl.startNewClient()">Добавить нового клиента</button>
       </div>
-      <div ng-if="vm.newClient">
+      <div ng-if="$ctrl.newClient">
         <div class="form-group">
           <label for="email">E-mail:</label>
-          <input type="text" class="form-control" id="email" ng-model="vm.newClient.email">
+          <input type="text" class="form-control" id="email" ng-model="$ctrl.newClient.email">
         </div>
         <div class="form-group">
           <label for="active">Активный:</label>
-          <input type="checkbox" id="active" ng-model="vm.newClient.active">
+          <input type="checkbox" id="active" ng-model="$ctrl.newClient.active">
         </div>
         <div class="form-group">
           <label for="comment">Комментарий:</label>
-          <input type="text" class="form-control" id="comment" ng-model="vm.newClient.comment">
+          <input type="text" class="form-control" id="comment" ng-model="$ctrl.newClient.comment">
         </div>
 
-        <button class="btn btn-success" ng-click="vm.saveClient()">Сохранить</button>
-        <button class="btn btn-danger" ng-click="vm.cancelAddNewClient()">Отмена</button>
+        <button class="btn btn-success" ng-click="$ctrl.saveClient()">Сохранить</button>
+        <button class="btn btn-danger" ng-click="$ctrl.cancelAddNewClient()">Отмена</button>
       </div>
     </div>
   </div>
@@ -45,7 +45,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="client in vm.clients">
+        <tr ng-repeat="client in $ctrl.clients">
           <td>{{client.email}}</td>
           <td>{{client.active && "Да" || "Нет" }}</td>
           <td>{{client.created}}</td>
@@ -55,8 +55,8 @@
             </button>
           </td>
           <td>
-            <button type="button" class="btn-danger" ng-click="showModal((client.links | filter:{rel:'self'})[0].href)">
-              Редактировать
+            <button type="button" class="btn-danger" ng-click="$ctrl.generateReport()">
+              Отчет
             </button>
           </td>
         </tr>
@@ -66,7 +66,7 @@
   </div>
   <div class="row text-center">
     <div class="col-md-12">
-      <ul uib-pagination items-per-page="20" total-items="vm.totalItems" ng-model="vm.currentPage"
+      <ul uib-pagination items-per-page="20" total-items="$ctrl.totalItems" ng-model="$ctrl.currentPage"
           ng-change="pageChanged()">
       </ul>
     </div>

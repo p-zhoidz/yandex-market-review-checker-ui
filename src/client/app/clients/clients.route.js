@@ -19,7 +19,7 @@
           url: '/',
           templateUrl: 'app/clients/clients.html',
           controller: 'ClientsController',
-          controllerAs: 'vm',
+          controllerAs: '$ctrl',
           title: 'Клиенты',
           settings: {
             nav: 1,
