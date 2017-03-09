@@ -47,14 +47,6 @@
       var res = tasksService.download(id);
       res.then(function (response) {
         logger.info("Downloading tasks");
-        // File.save(response.data, function (content) {
-        //   var hiddenElement = document.createElement('a');
-        //
-        //   hiddenElement.href = 'data:attachment/csv,' + encodeURI(content);
-        //   hiddenElement.target = '_blank';
-        //   hiddenElement.download = 'myFile.csv';
-        //   hiddenElement.click();
-        // });
         if (response.data != null && navigator.msSaveBlob)
           return navigator.msSaveBlob(new Blob([response.data], {type: "data:attachment/text"}), 'myFile.csv');
         var a = $("<a style='display: none;'/>");

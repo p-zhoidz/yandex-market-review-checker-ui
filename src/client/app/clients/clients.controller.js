@@ -56,12 +56,7 @@
     };
 
     $ctrl.generateReport = function generateReport() {
-      var res = clientsService.generateReport();
-
-        res.then(function (response) {
-
-
-
+      clientsService.generateReport().then(function (response) {
         if (response.data != null && navigator.msSaveBlob)
           return navigator.msSaveBlob(new Blob([response.data], {type: "application/pdf"}), 'myFile.pdf');
         var a = $("<a style='display: none;'/>");
@@ -72,9 +67,6 @@
         a[0].click();
         window.URL.revokeObjectURL(url);
         a.remove();
-
-
-
         logger.info("GENERATED");
       }, function (error) {
         logger.error(error)

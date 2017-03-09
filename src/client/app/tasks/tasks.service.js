@@ -97,7 +97,7 @@
       var deferred = $q.defer();
       var url = apiUrl + "/reports/tasks/" + id +"/task";
 
-      $http.get(url).then(
+      $http.get(url, {responseType: "arraybuffer"}).then(
         function (response) {
           deferred.resolve(response);
         }).catch(function (error) {
