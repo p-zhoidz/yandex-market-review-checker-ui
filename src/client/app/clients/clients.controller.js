@@ -61,12 +61,12 @@
           animation: $ctrl.animationsEnabled,
           ariaLabelledBy: 'modal-title',
           ariaDescribedBy: 'modal-body',
-          template: '<div>Test</div>',
+          templateUrl: 'chosenDates.modal.html',
           controller: 'modalInstanceController',
           controllerAs: '$ctrl',
           resolve: {
-            items: function () {
-              return $ctrl.items;
+            itemId: function () {
+              return clientId;
             }
           }
         });
@@ -99,7 +99,17 @@
   }
 
   /* @ngInject */
-  function modalInstanceController(){
+  function modalInstanceController($uibModalInstance, itemId){
     var $ctrl = this;
+
+    console.log(itemId)
+
+    $ctrl.submit = function () {
+      $uibModalInstance.close($ctrl.selected.item);
+    };
+
+    $ctrl.cancel = function () {
+      $uibModalInstance.dismiss('cancel');
+    };
   }
 })();
