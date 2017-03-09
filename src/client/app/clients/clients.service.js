@@ -65,8 +65,8 @@
       return deferred.promise;
     }
 
-    function generateReport() {
-      var url = apiUrl + "/tasks/1/report";
+    function generateReport(clientId) {
+      var url = apiUrl + "/tasks/" + clientId + "/report";
       var deferred = $q.defer();
 
       $http.get(url, {responseType: "arraybuffer"}).then(

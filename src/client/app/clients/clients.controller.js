@@ -3,12 +3,13 @@
 
   angular
     .module('app.clients')
-    .controller('ClientsController', ClientsController);
+    .controller('ClientsController', ClientsController)
+    .controller('modalInstanceController', modalInstanceController);
 
 
-  ClientsController.$inject = ['logger', 'clientsService', '$scope', '$state'];
+  ClientsController.$inject = ['logger','$uibModal', 'clientsService', '$scope', '$state'];
   /* @ngInject */
-  function ClientsController(logger, clientsService, $scope, $state) {
+  function ClientsController(logger,$uibModal, clientsService, $scope, $state) {
     var $ctrl = this;
     $ctrl.title = 'Клиенты';
 
@@ -55,22 +56,35 @@
       $ctrl.newClient = null;
     };
 
-    $ctrl.generateReport = function generateReport() {
-      clientsService.generateReport().then(function (response) {
-        if (response.data != null && navigator.msSaveBlob)
-          return navigator.msSaveBlob(new Blob([response.data], {type: "application/pdf"}), 'myFile.pdf');
-        var a = $("<a style='display: none;'/>");
-        var url = window.URL.createObjectURL(new Blob([response.data], {type: "application/pdf"}));
-        a.attr("href", url);
-        a.attr("download", 'myFile.pdf');
-        $("body").append(a);
-        a[0].click();
-        window.URL.revokeObjectURL(url);
-        a.remove();
-        logger.info("GENERATED");
-      }, function (error) {
-        logger.error(error)
-      })
+    $ctrl.generateReport = function generateReport(clientId) {
+        var modalInstance = $uibModal.open({
+          animation: $ctrl.animationsEnabled,
+          ariaLabelledBy: 'modal-title',
+          ariaDescribedBy: 'modal-body',
+          template: '<div>Test</div>',
+          controller: 'modalInstanceController',
+          controllerAs: '$ctrl',
+          resolve: {
+            items: function () {
+              return $ctrl.items;
+            }
+          }
+        });
+      // clientsService.generateReport(clientId).then(function (response) {
+      //   if (response.data != null && navigator.msSaveBlob)
+      //     return navigator.msSaveBlob(new Blob([response.data], {type: "application/pdf"}), 'myFile.pdf');
+      //   var a = $("<a style='display: none;'/>");
+      //   var url = window.URL.createObjectURL(new Blob([response.data], {type: "application/pdf"}));
+      //   a.attr("href", url);
+      //   a.attr("download", 'myFile.pdf');
+      //   $("body").append(a);
+      //   a[0].click();
+      //   window.URL.revokeObjectURL(url);
+      //   a.remove();
+      //   logger.info("GENERATED");
+      // }, function (error) {
+      //   logger.error(error)
+      // })
     };
 
     $scope.setPage = function (pageNo) {
@@ -82,5 +96,10 @@
       getClients($ctrl.currentPage - 1);
     };
 
+  }
+
+  /* @ngInject */
+  function modalInstanceController(){
+    var $ctrl = this;
   }
 })();
