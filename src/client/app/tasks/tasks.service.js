@@ -18,7 +18,8 @@
       getPosters: getPosters,
       createTask: createTask,
       generate: generate,
-      download: download
+      download: download,
+      runValidation: runValidation
     };
 
     function getTasks(page) {
@@ -97,6 +98,21 @@
       var url = apiUrl + "/reports/tasks/" + id +"/task";
 
       $http.get(url).then(
+        function (response) {
+          deferred.resolve(response);
+        }).catch(function (error) {
+          deferred.reject(error);
+        }
+      );
+
+      return deferred.promise;
+    }
+
+    function runValidation() {
+      var deferred = $q.defer();
+      var url = apiUrl + "/validation/run";
+
+      $http.post(url).then(
         function (response) {
           deferred.resolve(response);
         }).catch(function (error) {

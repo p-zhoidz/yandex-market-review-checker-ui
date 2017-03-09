@@ -55,7 +55,7 @@
         //   hiddenElement.download = 'myFile.csv';
         //   hiddenElement.click();
         // });
-        if (data != null && navigator.msSaveBlob)
+        if (response.data != null && navigator.msSaveBlob)
           return navigator.msSaveBlob(new Blob([response.data], {type: "data:attachment/text"}), 'myFile.csv');
         var a = $("<a style='display: none;'/>");
         var url = window.URL.createObjectURL(new Blob([response.data], {type: "data:attachment/text"}));
@@ -75,6 +75,8 @@
       $ctrl.newTask = {};
     };
 
+
+
     $ctrl.cancelAddTask = function cancelAddTask() {
       logger.info("Adding new task");
       $ctrl.newTask = null;
@@ -93,7 +95,7 @@
     };
 
     $ctrl.showTask = function showTask(task) {
-      $state.go("task", {taskId: task.id});
+      $state.go("task", {task: task});
     };
 
     $ctrl.getPosters = function getPosters() {
@@ -106,6 +108,11 @@
       });
 
       // $state.go("task", {task: task});
+    };
+
+    $ctrl.runValidation = function runValidation() {
+      logger.info("Running validation");
+      tasksService.runValidation();
     };
 
     $ctrl.toggleEndDate = function toggleEndDate() {
