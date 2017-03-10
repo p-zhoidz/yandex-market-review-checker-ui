@@ -6,9 +6,9 @@
     .factory('clientsService', ClientsService);
 
 
-  ClientsService.$inject = ['logger', '$http', '$q', 'config'];
+  ClientsService.$inject = ['logger', '$http', '$q', 'config', '$filter'];
   /* @ngInject */
-  function ClientsService(logger, $http, $q, config) {
+  function ClientsService(logger, $http, $q, config, $filter) {
     var apiUrl = config.apiUrl;
     return {
       getClients: getClients,
@@ -65,8 +65,11 @@
       return deferred.promise;
     }
 
-    function generateReport(clientId) {
-      var url = apiUrl + "/tasks/" + clientId + "/report";
+    function generateReport(clientId, startDate, endDate) {
+      var startDate = $filter('date')(startDate, 'yyyy-MM-dd');
+      var endDate = $filter('date')(endDate, 'yyyy-MM-dd');
+
+      var url = apiUrl + "/tasks/" + clientId + "/report?startDate="+startDate+"&endDate="+endDate;
       var deferred = $q.defer();
 
       $http.get(url, {responseType: "arraybuffer"}).then(

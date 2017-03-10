@@ -4,7 +4,9 @@
   angular.module('app.clients', [
     'ui.bootstrap',
     'ui.bootstrap.pagination',
-    'app.core'
+    'app.core',
+    'ui.bootstrap.datepicker',
+    'ui.bootstrap.datepickerPopup'
   ]);
 
 })();

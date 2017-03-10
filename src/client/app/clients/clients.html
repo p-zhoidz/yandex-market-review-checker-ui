@@ -1,3 +1,56 @@
+<script type="text/ng-template" id="chosenDates.modal.html">
+  <div class="modal-header">
+    <h3 class="modal-title" id="modal-title">I'm a modal!</h3>
+  </div>
+  <div class="modal-body" id="modal-body">
+    Selected: <b>{{ $ctrl.item }}</b>
+  </div>
+  <div class="modal-body" id="modal-body2">
+    Selected: <b>{{ $ctrl.startDateOpened }}</b>
+  </div>
+
+  <form name="reportParams">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="input-group">
+          <input type="text" class="form-control" uib-datepicker-popup ng-model="$ctrl.startDate"
+                 is-open="$ctrl.startDateOpened"
+                 datepicker-options="dateOptions" ng-required="true"
+                 close-text="Закрыть"
+                 current-text="Сегодня"
+                 clear-text="Очистить"/>
+          <span class="input-group-btn">
+          <button type="button" class="btn btn-default" ng-click="$ctrl.toggleStartDate()">
+          <i class="glyphicon glyphicon-calendar"></i>
+          </button>
+          </span>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <span class="separate-marker">по:</span>
+        <p class="input-group">
+          <input type="text" class="form-control" uib-datepicker-popup ng-model="$ctrl.endDate"
+                 is-open="$ctrl.endDateOpened"
+                 datepicker-options="dateOptions" ng-required="true"
+                 close-text="Закрыть"
+                 current-text="Сегодня"
+                 clear-text="Очистить"/>
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="$ctrl.toggleEndDate()">
+              <i class="glyphicon glyphicon-calendar"></i>
+            </button>
+          </span>
+
+        </p>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn btn-primary" type="button" ng-click="$ctrl.submit(reportParams)">OK</button>
+      <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Cancel</button>
+    </div>
+  </form>
+</script>
 <div class="page-header">
   <div class="container">
     <h1>Клиенты</h1>

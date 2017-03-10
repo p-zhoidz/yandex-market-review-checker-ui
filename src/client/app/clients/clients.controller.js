@@ -70,21 +70,6 @@
             }
           }
         });
-      // clientsService.generateReport(clientId).then(function (response) {
-      //   if (response.data != null && navigator.msSaveBlob)
-      //     return navigator.msSaveBlob(new Blob([response.data], {type: "application/pdf"}), 'myFile.pdf');
-      //   var a = $("<a style='display: none;'/>");
-      //   var url = window.URL.createObjectURL(new Blob([response.data], {type: "application/pdf"}));
-      //   a.attr("href", url);
-      //   a.attr("download", 'myFile.pdf');
-      //   $("body").append(a);
-      //   a[0].click();
-      //   window.URL.revokeObjectURL(url);
-      //   a.remove();
-      //   logger.info("GENERATED");
-      // }, function (error) {
-      //   logger.error(error)
-      // })
     };
 
     $scope.setPage = function (pageNo) {
@@ -99,17 +84,48 @@
   }
 
   /* @ngInject */
-  function modalInstanceController($uibModalInstance, itemId){
+  function modalInstanceController($uibModalInstance, itemId, clientsService){
     var $ctrl = this;
+    $ctrl.startDateOpened = false;
+    $ctrl.endDateOpened = false;
 
-    console.log(itemId)
+    $ctrl.item = itemId;
 
-    $ctrl.submit = function () {
-      $uibModalInstance.close($ctrl.selected.item);
+    $ctrl.toggleEndDate = function toggleEndDate() {
+      $ctrl.endDateOpened = !$ctrl.endDateOpened;
+    };
+
+    $ctrl.toggleStartDate = function toggleStartDate() {
+      $ctrl.startDateOpened = !$ctrl.startDateOpened;
+    };
+
+    $ctrl.submit = function (form) {
+      if(form.$valid) {
+        clientsService.generateReport($ctrl.item, $ctrl.startDate, $ctrl.endDate).then(function (response) {
+          if (response.data != null && navigator.msSaveBlob)
+            return navigator.msSaveBlob(new Blob([response.data], {type: "application/pdf"}), 'myFile.pdf');
+          var a = $("<a style='display: none;'/>");
+          var url = window.URL.createObjectURL(new Blob([response.data], {type: "application/pdf"}));
+          a.attr("href", url);
+          a.attr("download", 'myFile.pdf');
+          $("body").append(a);
+          a[0].click();
+          window.URL.revokeObjectURL(url);
+          a.remove();
+          logger.info("GENERATED");
+        }, function (error) {
+          logger.error(error)
+        });
+
+        $uibModalInstance.close();
+      }
     };
 
     $ctrl.cancel = function () {
       $uibModalInstance.dismiss('cancel');
     };
   }
+
+
+
 })();
